@@ -6,5 +6,6 @@
 
 int main()
 {
-    Parser* parser = new Parser("../input files/test.in");
+    Parser* parser = new Parser("..\\input files\\kittens.in");
+    Solver* solver;
 }

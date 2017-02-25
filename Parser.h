@@ -24,15 +24,17 @@ private:
 
     std::vector<unsigned int> video_sizes;
     std::vector<unsigned int> video_latencies; //video latencies from each end point aka ld
-
     unsigned int * cache_latencies; //video latencies from each cache server to each end point aka lc
+    std::vector<unsigned int> requested_videos; //the ID of the requested videos aka rv
+    std::vector<unsigned int> request_endpoints; //the ID of the endpoint from which the request is coming aka re
+    std::vector<unsigned int> requests_number; //number of requests aka rn
 public:
     Parser(std::string filename);
     void open_file();
     void parse_first_line();
     void parse_sizes_line();
     void parse_endpoints();
-    void parse_rlines();
+    void parse_requests();
 
     void split(std::string &line, std::vector<unsigned int> &numbers, char character);
 };

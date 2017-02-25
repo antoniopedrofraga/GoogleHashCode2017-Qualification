@@ -3,6 +3,7 @@
 //
 
 #include "Parser.h"
+#include <time.h>
 
 Parser::Parser(std::string filename) {
     this->filename = filename;
@@ -12,9 +13,20 @@ Parser::Parser(std::string filename) {
 void Parser::open_file() {
     this->file.open(filename);
     if (this->file.is_open()) {
+        clock_t start_time, end_time;
+        char reading_time[100];
+        start_time = clock();
+
         this->parse_first_line();
         this->parse_sizes_line();
         this->parse_endpoints();
+        this->parse_requests();
+
+        end_time = clock();
+        sprintf(reading_time, "Time: %3.5f seconds\n", (double)(end_time - start_time) / CLOCKS_PER_SEC);
+        std::cout << reading_time << std::endl;
+    } else {
+        std::cout << "File is closed" << std::endl;
     }
 }
 
@@ -48,6 +60,18 @@ void Parser::parse_endpoints() {
             split(line, clc, ' ');
             this->cache_latencies[clc[0] * this->c + j] = clc[1];
         }
+    }
+}
+
+void Parser::parse_requests() {
+    std::string line;
+    for (unsigned int i = 0; i < r; i++) {
+        std::getline(this->file, line);
+        std::vector<unsigned int> rs;
+        split(line, rs, ' ');
+        requested_videos.push_back(rs[0]);
+        request_endpoints.push_back(rs[1]);
+        requests_number.push_back(rs[2]);
     }
 }
 
