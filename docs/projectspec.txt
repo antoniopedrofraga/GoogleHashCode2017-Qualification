@@ -1,0 +1,57 @@
+(Video is on data center) 1 <---> 0 .. Many (Cache Servers) 
+(Endpoint) 1 <---> 1 .. Many (Cache Servers)
+
+
+Class EndPoint {
+	-> latency //Latency connection to data center
+	-> latencies[] //Array or vector of latencies to each cache server
+}
+
+Class Request {
+	-> times //number of times a particular video is requested
+	-> endpoint //Related EndPoint
+}
+
+Input Data is a plain text file with a '\n' at the end of each line
+
+1. V E R C X - Inteiros
+
+V? (1 = V = 10000) - the number of videos
+E (1 = E = 1000) - the number of endpoints
+R (1 = R = 1000000) - the number of request descriptions
+C (1 = C = 1000) - the number of cache servers
+X (1 = X = 500000) - the capacity of each cache server in megabytes
+
+2. S0 ... Sn //separated by spaces with V elements -  Array
+
+S is the size of video i in megabytes.
+S is (1 <= Si <= 1000)
+
+
+3. End Point - Array para Ld
+		Matriz Lc 
+		3 array (1 de Rv, 1 de Re, 1 de Rn)
+
+First Line - Ld K
+
+Ld (2 <= Ld <= 4000) //Latency of serving video from data center to endpoint
+K (0 <= K <= C) // Number of cache servers 
+
+Next K Lines - C Lc
+
+C (0 <= Rv < V) //the ID of the cache server
+Lc (1 <= Lc <= 500) // Latency from this cache serve to endpoint
+
+Last Section with R Lines - Rv Re Rn
+
+Rv (0 <= Rv < V) - the ID of the requested video
+Re (0 <= Re <= E) - the ID of the endpoint from wich the request is coming from
+Rn (0 < Rn <= 10000) - number of requests
+
+
+
+
+
+
+
+
