@@ -2,8 +2,8 @@
 // Created by António Pedro Fraga on 25/02/2017.
 //
 
-#ifndef UNTITLED_SOLVER_H
-#define UNTITLED_SOLVER_H
+#ifndef SOLVER_H
+#define SOLVER_H
 
 
 #include "Parser.h"
@@ -13,7 +13,8 @@ class Solver {
 public:
     Solver(Parser* parser);
     void solve();
+    unsigned int update_array_sum(unsigned int * array, unsigned int size);
 };
 
 
-#endif //UNTITLED_SOLVER_H
+#endif

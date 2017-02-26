@@ -5,8 +5,7 @@
 #include "Parser.h"
 #include "Solver.h"
 
-int main()
-{
-    Parser* parser = new Parser("..\\input files\\kittens.in");
+int main() {
+    Parser* parser = new Parser("..\\input files\\me_at_the_zoo.in");
     Solver* solver = new Solver(parser);
 }

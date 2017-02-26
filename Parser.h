@@ -2,8 +2,8 @@
 // Created by António Pedro Fraga on 25/02/2017.
 //
 
-#ifndef UNTITLED_PARSER_H
-#define UNTITLED_PARSER_H
+#ifndef PARSER_H
+#define PARSER_H
 
 #include <string>
 #include <fstream>
@@ -31,7 +31,7 @@ private:
 
     void open_file();
     void parse_first_line();
-    void parse_sizes_line();
+    void parse_sizes();
     void parse_endpoints();
     void parse_requests();
 
@@ -43,10 +43,13 @@ public:
     unsigned int get_e();
     unsigned int get_x();
     unsigned int get_v();
+    unsigned int get_r();
 
     std::vector<unsigned int> get_video_sizes();
     unsigned int * get_cache_latencies();
     unsigned int * get_video_latencies();
+    unsigned int * get_request_endpoints();
+    unsigned int * get_requests_number();
 };
 
 

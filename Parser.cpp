@@ -18,7 +18,7 @@ void Parser::open_file() {
         start_time = clock();
 
         this->parse_first_line();
-        this->parse_sizes_line();
+        this->parse_sizes();
         this->parse_endpoints();
         this->parse_requests();
 
@@ -43,7 +43,7 @@ void Parser::parse_first_line() {
     this->requests_number = (unsigned int *)malloc(this->v * sizeof(unsigned int));
 }
 
-void Parser::parse_sizes_line() {
+void Parser::parse_sizes() {
     std::string line;
     std::getline(this->file, line);
     this->split(line, this->video_sizes, ' ');
@@ -69,7 +69,7 @@ void Parser::parse_endpoints() {
 
 void Parser::parse_requests() {
     std::string line;
-    for (unsigned int i = 0; i < r; i++) {
+    for (unsigned int i = 0; i < this->r; i++) {
         std::getline(this->file, line);
         std::vector<unsigned int> rs;
         split(line, rs, ' ');
@@ -110,6 +110,10 @@ unsigned int Parser::get_v() {
     return this->v;
 }
 
+unsigned int Parser::get_r() {
+    return this->r;
+}
+
 std::vector<unsigned int> Parser::get_video_sizes() {
     return this->video_sizes;
 }
@@ -120,4 +124,12 @@ unsigned int * Parser::get_cache_latencies() {
 
 unsigned int * Parser::get_video_latencies() {
     return this->video_latencies;
+}
+
+unsigned int * Parser::get_request_endpoints() {
+    return this->request_endpoints;
+}
+
+unsigned int * Parser::get_requests_number() {
+    return this->requests_number;
 }
