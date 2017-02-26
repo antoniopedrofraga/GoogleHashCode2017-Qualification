@@ -3,9 +3,10 @@
 //
 #include <iostream>
 #include "Parser.h"
+#include "Solver.h"
 
 int main()
 {
     Parser* parser = new Parser("..\\input files\\kittens.in");
-    Solver* solver;
+    Solver* solver = new Solver(parser);
 }

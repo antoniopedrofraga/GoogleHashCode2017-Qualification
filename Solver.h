@@ -6,8 +6,13 @@
 #define UNTITLED_SOLVER_H
 
 
-class Solver {
+#include "Parser.h"
 
+class Solver {
+    Parser* parser;
+public:
+    Solver(Parser* parser);
+    void solve();
 };
 
 

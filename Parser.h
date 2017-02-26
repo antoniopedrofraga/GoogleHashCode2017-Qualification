@@ -23,13 +23,12 @@ private:
     unsigned int x;
 
     std::vector<unsigned int> video_sizes;
-    std::vector<unsigned int> video_latencies; //video latencies from each end point aka ld
-    unsigned int * cache_latencies; //video latencies from each cache server to each end point aka lc
-    std::vector<unsigned int> requested_videos; //the ID of the requested videos aka rv
-    std::vector<unsigned int> request_endpoints; //the ID of the endpoint from which the request is coming aka re
-    std::vector<unsigned int> requests_number; //number of requests aka rn
-public:
-    Parser(std::string filename);
+    unsigned int * video_latencies; //video latencies from each end point aka ld
+    unsigned int * cache_latencies; //video latencies from each cache server to each end point aka lc (matrix)
+
+    unsigned int * request_endpoints; //the ID of the endpoint from which the request is coming aka re
+    unsigned int * requests_number; //number of requests aka rn
+
     void open_file();
     void parse_first_line();
     void parse_sizes_line();
@@ -37,7 +36,18 @@ public:
     void parse_requests();
 
     void split(std::string &line, std::vector<unsigned int> &numbers, char character);
+public:
+    Parser(std::string filename);
+
+    unsigned int get_c();
+    unsigned int get_e();
+    unsigned int get_x();
+    unsigned int get_v();
+
+    std::vector<unsigned int> get_video_sizes();
+    unsigned int * get_cache_latencies();
+    unsigned int * get_video_latencies();
 };
 
 
-#endif //UNTITLED_PARSER_H
+#endif
