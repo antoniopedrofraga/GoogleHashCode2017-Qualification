@@ -14,7 +14,7 @@ public:
     CLatency(unsigned int c, unsigned int l);
     unsigned int get_latency();
     unsigned int get_cache_id();
-    bool operator < (CLatency cache_latency) const {
+    bool operator < (CLatency cache_latency) {
         return (latency < cache_latency.get_latency());
     }
 };

@@ -6,6 +6,7 @@
 #include "Solver.h"
 
 int main() {
-    Parser* parser = new Parser("..\\input files\\me_at_the_zoo.in");
-    Solver* solver = new Solver(parser);
+    std::string filename = "kittens";
+    Parser* parser = new Parser("..\\input files\\" + filename + ".in");
+    Solver* solver = new Solver("..\\output files\\" + filename + ".out", parser);
 }

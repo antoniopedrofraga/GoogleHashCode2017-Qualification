@@ -20,7 +20,7 @@ public:
     Endpoint * get_endpoint();
     unsigned int get_video_id();
 
-    bool operator < (const Request& request) const {
+    bool operator < (Request& request) {
         return (number_of_requests > request.number_of_requests);
     }
 };

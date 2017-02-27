@@ -25,10 +25,10 @@ private:
     unsigned int c;
     unsigned int x;
 
-    Cache * caches[];
     std::vector<unsigned int> video_sizes;
     std::vector<Endpoint> * endpoints;
     std::vector<Request> * requests;
+    std::vector<Cache*> * caches;
 
     void open_file();
     void parse_first_line();
@@ -40,13 +40,9 @@ private:
 public:
     Parser(std::string filename);
 
-    unsigned int get_c();
-    unsigned int get_e();
-    unsigned int get_x();
-    unsigned int get_v();
     unsigned int get_r();
 
-    Cache** get_caches();
+    std::vector<Cache*> * get_caches();
     std::vector<unsigned int> get_video_sizes();
     std::vector<Request> * get_requests();
     std::vector<Endpoint> * get_endpoints();

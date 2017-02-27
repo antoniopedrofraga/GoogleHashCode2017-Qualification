@@ -11,15 +11,18 @@
 
 class Cache {
 private:
+    bool used;
     unsigned int capacity;
     unsigned int used_capacity;
 
-    std::vector<unsigned int> videos;
+    std::vector<unsigned int> * videos;
 public:
     Cache(unsigned int capacity);
     unsigned int get_capacity();
     unsigned int get_used_capacity();
-    void place_video(unsigned int video_id, unsigned int size);
+    void place_on_cache(unsigned int video_id, unsigned int size);
+    std::vector<unsigned int> get_videos();
+    bool is_used();
 };
 
 

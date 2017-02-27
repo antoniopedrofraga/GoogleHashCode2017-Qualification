@@ -3,13 +3,13 @@
 //
 
 #include "Parser.h"
-#include "problem_objs/Cache.h"
 #include <time.h>
 
 Parser::Parser(std::string filename) {
     this->filename = filename;
     this->requests = new std::vector<Request>();
     this->endpoints = new std::vector<Endpoint>();
+    this->caches = new std::vector<Cache*>();
     this->open_file();
 }
 
@@ -26,7 +26,7 @@ void Parser::open_file() {
         this->parse_requests();
 
         end_time = clock();
-        sprintf(reading_time, "Time of reading: %3.5f seconds\n", (double)(end_time - start_time) / CLOCKS_PER_SEC);
+        sprintf(reading_time, "Reading time: %3.3f seconds\n", (double)(end_time - start_time) / CLOCKS_PER_SEC);
         std::cout << reading_time << std::endl;
     } else {
         std::cout << "File is closed" << std::endl;
@@ -39,7 +39,9 @@ void Parser::parse_first_line() {
     std::istringstream iss(line);
 
     iss >> this->v >> this->e >> this->r >> this->c >> this->x;
-    this->caches[this->c] = { new Cache(this->x) };
+    for (unsigned int i = 0; i < this-> c; i++) {
+        this->caches->push_back(new Cache(this->x));
+    }
 }
 
 void Parser::parse_sizes() {
@@ -94,28 +96,11 @@ void Parser::split(std::string &line, std::vector<unsigned int> &numbers, char c
     numbers.push_back((unsigned int)atoll(line.substr(initial_pos, std::min(pos, line.size()) - initial_pos).c_str()));
 }
 
-
-unsigned int Parser::get_c() {
-    return this->c;
-}
-
-unsigned int Parser::get_e() {
-    return this->e;
-}
-
-unsigned int Parser::get_x() {
-    return this->x;
-}
-
-unsigned int Parser::get_v() {
-    return this->v;
-}
-
 unsigned int Parser::get_r() {
     return this->r;
 }
 
-Cache ** Parser::get_caches() {
+std::vector<Cache*> * Parser::get_caches() {
     return this->caches;
 }
 
@@ -130,4 +115,3 @@ std::vector<Request> * Parser::get_requests(){
 std::vector<Endpoint> * Parser::get_endpoints(){
     return this->endpoints;
 }
-
