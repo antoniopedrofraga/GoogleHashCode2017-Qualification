@@ -12,13 +12,16 @@
 class Request {
 private:
     unsigned int video_id;
-    Endpoint endpoint;
+    Endpoint * endpoint;
     unsigned int number_of_requests;
 public:
-    Request(unsigned int v, Endpoint e, unsigned int r);
+    Request(unsigned int v, Endpoint * e, unsigned int r);
     unsigned int get_number_of_requests();
+    Endpoint * get_endpoint();
+    unsigned int get_video_id();
+
     bool operator < (const Request& request) const {
-        return (number_of_requests < request.number_of_requests);
+        return (number_of_requests > request.number_of_requests);
     }
 };
 

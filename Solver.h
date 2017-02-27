@@ -13,7 +13,9 @@ class Solver {
 public:
     Solver(Parser* parser);
     void solve();
+    void place_video(unsigned int video_id, Endpoint endpoint);
     unsigned int update_array_sum(unsigned int * array, unsigned int size);
+
 };
 
 

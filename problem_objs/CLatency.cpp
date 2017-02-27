@@ -13,3 +13,7 @@ CLatency::CLatency(unsigned int c, unsigned int l) {
 unsigned int CLatency::get_latency() {
     return this->latency;
 }
+
+unsigned int CLatency::get_cache_id() {
+    return this->cache;
+}

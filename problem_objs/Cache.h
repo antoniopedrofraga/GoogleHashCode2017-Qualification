@@ -7,6 +7,7 @@
 
 
 #include <vector>
+#include <algorithm>
 
 class Cache {
 private:
@@ -16,6 +17,9 @@ private:
     std::vector<unsigned int> videos;
 public:
     Cache(unsigned int capacity);
+    unsigned int get_capacity();
+    unsigned int get_used_capacity();
+    void place_video(unsigned int video_id, unsigned int size);
 };
 
 

@@ -65,7 +65,7 @@ void Parser::parse_endpoints() {
             split(line, clc, ' ');
             cache_latencies->push_back(*(new CLatency(clc[0], clc[1])));
         }
-        this->endpoints->push_back(*(new Endpoint(latency, cache_latencies)));
+        this->endpoints->push_back(*(new Endpoint(i, latency, cache_latencies)));
     }
 }
 
@@ -76,7 +76,7 @@ void Parser::parse_requests() {
         std::vector<unsigned int> rs;
         split(line, rs, ' ');
 
-        this->requests->push_back(*(new Request(rs[0], (*endpoints)[rs[1]], rs[2])));
+        this->requests->push_back(*(new Request(rs[0], &((*endpoints)[rs[1]]), rs[2])));
     }
     std::sort(this->requests->begin(), this->requests->end());
 }
@@ -86,13 +86,11 @@ void Parser::split(std::string &line, std::vector<unsigned int> &numbers, char c
     unsigned int pos = line.find(character);
     unsigned int initial_pos = 0;
     numbers.clear();
-
     while(pos != std::string::npos) {
         numbers.push_back((unsigned int)atoll(line.substr(initial_pos, pos - initial_pos).c_str()));
         initial_pos = pos + 1;
         pos = line.find(character, initial_pos);
     }
-
     numbers.push_back((unsigned int)atoll(line.substr(initial_pos, std::min(pos, line.size()) - initial_pos).c_str()));
 }
 
@@ -117,7 +115,7 @@ unsigned int Parser::get_r() {
     return this->r;
 }
 
-Cache** Parser::get_caches() {
+Cache ** Parser::get_caches() {
     return this->caches;
 }
 
