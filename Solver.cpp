@@ -16,15 +16,12 @@ void Solver::solve() {
     unsigned int number_of_requests = parser->get_r();
     unsigned int cache_capacity = parser->get_x();
 
+    Cache ** caches = parser->get_caches();
     std::vector<unsigned int> video_sizes = parser->get_video_sizes(); //aka s
-    unsigned int * video_latencies = parser->get_video_latencies(); //aka ld
-    unsigned int * cache_latencies = parser->get_cache_latencies(); //aka lc (matrix)
+    std::vector<Request> requests = *parser->get_requests();
+    std::vector<Endpoint> endpoints = *parser->get_endpoints();
 
-    unsigned int * request_endpoints = parser->get_request_endpoints();
-    unsigned int * requests_number = parser->get_requests_number();
-
-
-    unsigned int cache_videos[number_of_caches][number_of_videos + 1] = {{0}};
+    
 }
 
 

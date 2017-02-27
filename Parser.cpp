@@ -3,10 +3,13 @@
 //
 
 #include "Parser.h"
+#include "problem_objs/Cache.h"
 #include <time.h>
 
 Parser::Parser(std::string filename) {
     this->filename = filename;
+    this->requests = new std::vector<Request>();
+    this->endpoints = new std::vector<Endpoint>();
     this->open_file();
 }
 
@@ -36,11 +39,7 @@ void Parser::parse_first_line() {
     std::istringstream iss(line);
 
     iss >> this->v >> this->e >> this->r >> this->c >> this->x;
-    this->video_latencies = (unsigned int *)malloc((this->v) * sizeof(unsigned int));
-    this->cache_latencies = (unsigned int *)malloc((this->c * this->e) * sizeof(unsigned int));
-
-    this->request_endpoints = (unsigned int *)malloc(this->v * sizeof(unsigned int));
-    this->requests_number = (unsigned int *)malloc(this->v * sizeof(unsigned int));
+    this->caches[this->c] = { new Cache(this->x) };
 }
 
 void Parser::parse_sizes() {
@@ -51,19 +50,22 @@ void Parser::parse_sizes() {
 
 void Parser::parse_endpoints() {
     std::string line;
-    for (unsigned int i = 0; i < this->c; i++) {
+    for (unsigned int i = 0; i < this->e; i++) {
         std::getline(this->file, line);
         std::vector<unsigned int> ldk;
         split(line, ldk, ' ');
-        this->video_latencies[i] = ldk[0];
+
+        unsigned int latency = ldk[0];
         unsigned int k = ldk[1];
 
+        std::vector<CLatency>* cache_latencies = new std::vector<CLatency>();
         for (unsigned int j = 0; j < k; j++) {
             std::getline(this->file, line);
             std::vector<unsigned int> clc;
             split(line, clc, ' ');
-            this->cache_latencies[clc[0] * this->c + j] = clc[1];
+            cache_latencies->push_back(*(new CLatency(clc[0], clc[1])));
         }
+        this->endpoints->push_back(*(new Endpoint(latency, cache_latencies)));
     }
 }
 
@@ -73,9 +75,10 @@ void Parser::parse_requests() {
         std::getline(this->file, line);
         std::vector<unsigned int> rs;
         split(line, rs, ' ');
-        request_endpoints[rs[0]] = rs[1];
-        requests_number[rs[0]] = rs[2];
+
+        this->requests->push_back(*(new Request(rs[0], (*endpoints)[rs[1]], rs[2])));
     }
+    std::sort(this->requests->begin(), this->requests->end());
 }
 
 
@@ -114,22 +117,19 @@ unsigned int Parser::get_r() {
     return this->r;
 }
 
+Cache** Parser::get_caches() {
+    return this->caches;
+}
+
 std::vector<unsigned int> Parser::get_video_sizes() {
     return this->video_sizes;
 }
 
-unsigned int * Parser::get_cache_latencies() {
-    return this->cache_latencies;
+std::vector<Request> * Parser::get_requests(){
+    return this->requests;
 }
 
-unsigned int * Parser::get_video_latencies() {
-    return this->video_latencies;
+std::vector<Endpoint> * Parser::get_endpoints(){
+    return this->endpoints;
 }
 
-unsigned int * Parser::get_request_endpoints() {
-    return this->request_endpoints;
-}
-
-unsigned int * Parser::get_requests_number() {
-    return this->requests_number;
-}

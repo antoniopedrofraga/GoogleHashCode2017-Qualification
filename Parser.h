@@ -10,6 +10,9 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include "problem_objs/Endpoint.h"
+#include "problem_objs/Request.h"
+#include "problem_objs/Cache.h"
 
 class Parser {
 private:
@@ -22,12 +25,10 @@ private:
     unsigned int c;
     unsigned int x;
 
+    Cache * caches[];
     std::vector<unsigned int> video_sizes;
-    unsigned int * video_latencies; //video latencies from each end point aka ld
-    unsigned int * cache_latencies; //video latencies from each cache server to each end point aka lc (matrix)
-
-    unsigned int * request_endpoints; //the ID of the endpoint from which the request is coming aka re
-    unsigned int * requests_number; //number of requests aka rn
+    std::vector<Endpoint> * endpoints;
+    std::vector<Request> * requests;
 
     void open_file();
     void parse_first_line();
@@ -45,11 +46,10 @@ public:
     unsigned int get_v();
     unsigned int get_r();
 
+    Cache** get_caches();
     std::vector<unsigned int> get_video_sizes();
-    unsigned int * get_cache_latencies();
-    unsigned int * get_video_latencies();
-    unsigned int * get_request_endpoints();
-    unsigned int * get_requests_number();
+    std::vector<Request> * get_requests();
+    std::vector<Endpoint> * get_endpoints();
 };
 
 
