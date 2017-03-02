@@ -6,16 +6,19 @@
 #define UNTITLED_CLATENCY_H
 
 
+#include "Cache.h"
+
 class CLatency {
 private:
-    unsigned int cache;
+    Cache* cache;
     unsigned int latency;
+    int time_to_save;
 public:
-    CLatency(unsigned int c, unsigned int l);
+    CLatency(Cache* c, unsigned int l, int t);
     unsigned int get_latency();
-    unsigned int get_cache_id();
+    Cache* get_cache();
     bool operator < (CLatency cache_latency) {
-        return (latency < cache_latency.get_latency());
+        return (time_to_save > cache_latency.time_to_save);
     }
 };
 

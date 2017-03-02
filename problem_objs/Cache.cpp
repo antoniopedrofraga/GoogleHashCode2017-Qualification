@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Cache.h"
+#include "Request.h"
 
 
 Cache::Cache(unsigned int capacity) {
@@ -19,6 +20,10 @@ unsigned int Cache::get_capacity() {
 
 unsigned int Cache::get_used_capacity() {
     return this->used_capacity;
+}
+
+unsigned int Cache::get_free_space() {
+    return this->capacity - this->used_capacity;
 }
 
 void Cache::place_on_cache(unsigned int video_id, unsigned int size) {

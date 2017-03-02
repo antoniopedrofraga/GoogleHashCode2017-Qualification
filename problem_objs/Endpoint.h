@@ -17,6 +17,7 @@ private:
 public:
     Endpoint(unsigned int i, unsigned int ld, std::vector<CLatency> * lc);
     unsigned int get_index();
+    unsigned int get_latency_to_datacenter();
     std::vector<CLatency>* get_latencies_to_cache();
 };
 

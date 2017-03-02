@@ -20,3 +20,7 @@ unsigned int Endpoint::get_index() {
 std::vector<CLatency> * Endpoint::get_latencies_to_cache() {
     return this->latencies_to_cache_server;
 }
+
+unsigned int Endpoint::get_latency_to_datacenter() {
+    return this->latency_to_datacenter;
+}

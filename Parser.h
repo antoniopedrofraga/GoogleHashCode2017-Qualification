@@ -10,6 +10,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <deque>
 #include "problem_objs/Endpoint.h"
 #include "problem_objs/Request.h"
 #include "problem_objs/Cache.h"
@@ -27,8 +28,9 @@ private:
 
     std::vector<unsigned int> video_sizes;
     std::vector<Endpoint> * endpoints;
-    std::vector<Request> * requests;
+    std::deque<Request> * requests;
     std::vector<Cache*> * caches;
+    std::vector<CLatency*> * cache_latencies;
 
     void open_file();
     void parse_first_line();
@@ -41,11 +43,13 @@ public:
     Parser(std::string filename);
 
     unsigned int get_r();
+    unsigned int get_x();
 
     std::vector<Cache*> * get_caches();
     std::vector<unsigned int> get_video_sizes();
-    std::vector<Request> * get_requests();
+    std::deque<Request> * get_requests();
     std::vector<Endpoint> * get_endpoints();
+    std::vector<CLatency*> * get_cache_latencies();
 };
 
 

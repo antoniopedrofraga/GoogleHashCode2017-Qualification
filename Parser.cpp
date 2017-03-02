@@ -7,9 +7,10 @@
 
 Parser::Parser(std::string filename) {
     this->filename = filename;
-    this->requests = new std::vector<Request>();
+    this->requests = new std::deque<Request>();
     this->endpoints = new std::vector<Endpoint>();
     this->caches = new std::vector<Cache*>();
+    this->cache_latencies = new std::vector<CLatency*>();
     this->open_file();
 }
 
@@ -26,7 +27,7 @@ void Parser::open_file() {
         this->parse_requests();
 
         end_time = clock();
-        sprintf(reading_time, "Reading time: %3.3f seconds\n", (double)(end_time - start_time) / CLOCKS_PER_SEC);
+        sprintf(reading_time, "Reading time: %3.3f seconds", (double)(end_time - start_time) / CLOCKS_PER_SEC);
         std::cout << reading_time << std::endl;
     } else {
         std::cout << "File is closed" << std::endl;
@@ -60,15 +61,20 @@ void Parser::parse_endpoints() {
         unsigned int latency = ldk[0];
         unsigned int k = ldk[1];
 
-        std::vector<CLatency>* cache_latencies = new std::vector<CLatency>();
+        std::vector<CLatency>* cl = new std::vector<CLatency>();
         for (unsigned int j = 0; j < k; j++) {
             std::getline(this->file, line);
             std::vector<unsigned int> clc;
             split(line, clc, ' ');
-            cache_latencies->push_back(*(new CLatency(clc[0], clc[1])));
+            int time_to_save = latency - clc[1];
+            Cache * cache = (*this->caches)[clc[0]];
+            CLatency * clatency = new CLatency(cache, clc[1], time_to_save);
+            cl->push_back(*clatency);
+            this->cache_latencies->push_back(clatency);
         }
-        this->endpoints->push_back(*(new Endpoint(i, latency, cache_latencies)));
+        this->endpoints->push_back(*(new Endpoint(i, latency, cl)));
     }
+    std::sort(this->cache_latencies->begin(), this->cache_latencies->end());
 }
 
 void Parser::parse_requests() {
@@ -77,10 +83,10 @@ void Parser::parse_requests() {
         std::getline(this->file, line);
         std::vector<unsigned int> rs;
         split(line, rs, ' ');
-
-        this->requests->push_back(*(new Request(rs[0], &((*endpoints)[rs[1]]), rs[2])));
+        unsigned int size = this->video_sizes[rs[0]];
+        this->requests->push_back(*(new Request(rs[0], &((*endpoints)[rs[1]]), rs[2], size)));
     }
-    std::sort(this->requests->begin(), this->requests->end());
+    //std::sort(this->requests->begin(), this->requests->end());
 }
 
 
@@ -96,8 +102,13 @@ void Parser::split(std::string &line, std::vector<unsigned int> &numbers, char c
     numbers.push_back((unsigned int)atoll(line.substr(initial_pos, std::min(pos, line.size()) - initial_pos).c_str()));
 }
 
+
 unsigned int Parser::get_r() {
     return this->r;
+}
+
+unsigned int Parser::get_x(){
+    return this->x;
 }
 
 std::vector<Cache*> * Parser::get_caches() {
@@ -108,10 +119,15 @@ std::vector<unsigned int> Parser::get_video_sizes() {
     return this->video_sizes;
 }
 
-std::vector<Request> * Parser::get_requests(){
+std::deque<Request> * Parser::get_requests(){
     return this->requests;
 }
 
 std::vector<Endpoint> * Parser::get_endpoints(){
     return this->endpoints;
 }
+
+std::vector<CLatency*> * Parser::get_cache_latencies(){
+    return this->cache_latencies;
+}
+

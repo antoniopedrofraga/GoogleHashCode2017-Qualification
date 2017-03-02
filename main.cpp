@@ -6,7 +6,11 @@
 #include "Solver.h"
 
 int main() {
-    std::string filename = "kittens";
-    Parser* parser = new Parser("..\\input files\\" + filename + ".in");
-    Solver* solver = new Solver("..\\output files\\" + filename + ".out", parser);
+    std::cout << std::endl;
+    std::string filenames[4] = {"me_at_the_zoo", "videos_worth_spreading", "trending_today", "kittens"};
+    for (unsigned int i = 0; i < 4; i++) {
+        std::cout << "File: " << filenames[i] << std::endl;
+        Parser *parser = new Parser("..\\input files\\" + filenames[i] + ".in");
+        new Solver("..\\output files\\" + filenames[i] + ".out", parser);
+    }
 }

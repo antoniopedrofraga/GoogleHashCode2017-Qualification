@@ -14,9 +14,10 @@ class Solver {
     void solve();
     void place_video(std::vector<Cache*> * caches, unsigned int video_id, Endpoint endpoint);
     void write_output();
+    std::vector<Request> knapsack(int capacity, std::vector<unsigned int> video_sizes, std::vector<Request> requests, int number_of_items);
+    unsigned int sum_of_requests(std::vector<Request> requests);
 public:
     Solver(std::string output, Parser* parser);
-    unsigned int update_array_sum(unsigned int * array, unsigned int size);
 
 };
 
